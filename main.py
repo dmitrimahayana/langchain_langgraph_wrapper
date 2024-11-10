@@ -50,17 +50,19 @@ def call_model(state: State):
     response = chain.invoke(state)
     return {"messages": [response]}
 
-# Define a new graph
-workflow = StateGraph(state_schema=State)
-workflow.add_edge(START, "model")
-workflow.add_node("model", call_model)
 
+# Persistence Data
 memory_db_uri = f"postgresql://{DB_USERNAME}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}?sslmode=disable"
 memory_connection_kwargs = {
     "autocommit": True,
     "prepare_threshold": 0,
 }
 pool = Connection.connect(memory_db_uri, **memory_connection_kwargs)
+
+# Define a new graph
+workflow = StateGraph(state_schema=State)
+workflow.add_edge(START, "model")
+workflow.add_node("model", call_model)
 checkpointer = PostgresSaver(pool)
 checkpointer.setup()
 workflow_app = workflow.compile(checkpointer=checkpointer)
@@ -75,7 +77,7 @@ def send_message(config, message):
     output["messages"][-1].pretty_print()
 
 if __name__ == "__main__":
-    config = {"configurable": {"thread_id": "1"}}
+    config = {"configurable": {"thread_id": "1001"}}
     message = "hi, my name is dmitri, tell me yours?"
     send_message(config, message)
 
