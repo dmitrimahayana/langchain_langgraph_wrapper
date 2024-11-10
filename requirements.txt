@@ -1,0 +1,10 @@
+langchain==0.3.2
+langchain-community==0.3.1
+langchain-huggingface==0.1.0
+langgraph==0.2.34
+langgraph-checkpoint-postgres==2.0.1
+ollama==0.3.3
+psycopg2-binary==2.9.9
+psycopg[binary]
+langserve==0.3.0
+python-dotenv
