@@ -52,12 +52,12 @@ def call_model(state: State):
 
 
 # Persistence Data
-memory_db_uri = f"postgresql://{DB_USERNAME}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}?sslmode=disable"
+memory_db = f"postgresql://{DB_USERNAME}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}?sslmode=disable"
 memory_connection_kwargs = {
     "autocommit": True,
     "prepare_threshold": 0,
 }
-pool = Connection.connect(memory_db_uri, **memory_connection_kwargs)
+pool = Connection.connect(memory_db, **memory_connection_kwargs)
 
 # Define a new graph
 workflow = StateGraph(state_schema=State)
